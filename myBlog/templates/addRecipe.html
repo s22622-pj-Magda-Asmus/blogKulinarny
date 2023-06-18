@@ -1,0 +1,26 @@
+
+<section class="" id="portfolio">
+    <div class="container">
+<div style="margin: 25px; background-color:rgb(237, 232, 130); ">
+    <h2 style="margin-top: 100px; padding: 20px;">Dodaj nowe danie do bloga:</h2>
+    <form id="addNew_form" action="../addProcess" method="POST" style="padding: 20px;">
+        <div class="form-group">
+            <label for="nazwa">Nazwa dania</label>
+            <input class="form-control" type="text" name="nazwa" id="nazwa" aria-describedby="nazwaInput"
+                placeholder="Wpisz nazwe dania" maxlength="30">
+        </div>
+        <div class="form-group">
+            <label for="skladniki">Składniki</label>
+            <textarea class="form-control" type="text" id="skladniki" name="skladniki" placeholder="Składniki"
+                maxlength="500"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="przygotowanie">Przygotowanie</label>
+            <textarea class="form-control" id="przygotowanie" type="text" name="przygotowanie"
+                placeholder="Opis wykonania" maxlength="500"></textarea>
+        </div>
+        <button type="submit" value="Send" class="btn btn-primary">Dodaj</button>
+    </form>
+</div>
+</div>
+</section>
