@@ -1,0 +1,35 @@
+<nav class="navbar navbar-dark fixed-top bg-light" id="mainNav">
+    <div class="container">
+        <!-- Happireshipi logo should take us to the top of main page, as next step it shoul reload to endpoint with main page -->
+        <!-- now it has css only for mobile devices -it is not perfect dor bigger dimensions -->
+        <a class="navbar-brand" href="{{ url_for('index')}}">
+            <img src="{{url_for('static', filename='logo.png')}}" class="img float-left" />
+        </a>
+
+        {% if logged==true %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                Action
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Dadaj przepis</a>
+                <a class="dropdown-item" href="#">Moje konto</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Wyloguj się</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary " style="width: 100px;">
+                Zaloguj się
+            </button>
+            <button type="button" class="btn btn-secondary " style="width: 120px;">
+                Zarejestruj się
+            </button>
+
+        </div>
+        {% endif %}
+
+    </div>
+</nav>

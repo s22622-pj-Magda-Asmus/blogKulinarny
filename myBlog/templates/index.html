@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<section class="" id="portfolio">
+    <div class="container">
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-5 col-sm-10 portfolio-item">
+                <div class="card">
+                    <a class="portfolio-link" data-toggle="modal" href="#portfolioModal{{post.id}}">
+                        <div class="portfolio-hover">
+                            <div class="portfolio-hover-content"></div>
+                        </div>
+                        <img class="card-img-top" src="{{url_for('static', filename=post.img )  }}" style="width:400px;"
+                            alt="Card image cap">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title">{{ post.nazwa }}</h4>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- POP-ups  -->
+
+<!-- window 1 -->
+{% for post in posts %}
+<div class="modal fade" id="portfolioModal{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="exampleModalLabel">{{post.nazwa}}</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <img class="card-img-top" src="{{url_for('static', filename=post.img )  }}" style="width:400px;">
+                <h5>Składniki:</h5>
+                <p>{{post.skladniki}}</p>
+                <h5>Wykonanie:</h5>
+                <p>{{post.przygotowanie}}</p>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}
