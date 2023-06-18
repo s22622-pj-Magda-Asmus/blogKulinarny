@@ -27,10 +27,12 @@
             <button type="button" class="btn btn-secondary " style="width: 100px;">
                 Zarejestruj
             </button>
-            <!-- <button type="button" class="btn btn-primary " style="width: 200px;">
-                Dodaj nowy przepis
-            </button> -->
-
+            <button type="button" class="btn btn-primary " style="width: 200px;">
+                <a href="{{ url_for('myRecipes')}}" class="text-white">Moje przepisy</a>
+            </button>
+            <button type="button" class="btn btn-secondary " style="width: 200px;">
+                <a href="{{ url_for('addRecipe')}}" class="text-white" >Dodaj przepis</a> 
+            </button>
         </div>
         {% endif %}
 

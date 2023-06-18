@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col-md-12 col-lg-12 mx-auto">
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nazwa</th>
+        <th scope="col">Składniki</th>
+        <th scope="col">Przepis</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+      <tr>
+        <th scope="row">{{transaction.int}}</th>
+        <td>{{transaction.nazwa}}</td>
+        <td>{{transaction.skladniki}}</td>
+        <td>{{transaction.przygotowanie}}</td>
+        <td>
+            <a href="#" class="button button-primary " role="button">Uaktualnij...</a>
+            <a href="#" class="button button-danger " role="button">Usuń...</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
+{% endblock %}
