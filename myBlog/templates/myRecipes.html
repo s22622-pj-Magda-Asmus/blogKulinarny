@@ -14,15 +14,15 @@
       </tr>
     </thead>
     <tbody>
-        {% for transaction in transactions %}
+        {% for recipe in recipes %}
       <tr>
-        <th scope="row">{{transaction.int}}</th>
-        <td>{{transaction.nazwa}}</td>
-        <td>{{transaction.skladniki}}</td>
-        <td>{{transaction.przygotowanie}}</td>
+        <th scope="row">{{recipe.int}}</th>
+        <td>{{recipe.nazwa}}</td>
+        <td>{{recipe.skladniki}}</td>
+        <td>{{recipe.przygotowanie}}</td>
         <td>
-            <a href="#" class="button button-primary " role="button">Uaktualnij...</a>
-            <a href="#" class="button button-danger " role="button">Usuń...</a>
+            <a href="{{url_for('updateProcess', recipe_id=recipe.int)}}" class="button button-primary " role="button">Uaktualnij...</a>
+            <a href="{{url_for('deleteProcess', recipe_id=recipe.int)}}" class="button button-danger " role="button">Usuń...</a>
         </td>
       </tr>
       {% endfor %}
