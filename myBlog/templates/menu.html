@@ -6,17 +6,17 @@
             <img src="{{url_for('static', filename='logo.png')}}" class="img float-left" />
         </a>
 
-        {% if logged==true %}
+        {% if 'user' in session %}
         <div class="btn-group">
-            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false">
-                Action
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" style="width: 200px;">
+                Menu {{ session['user'] if 'user' in session }}
             </button>
             <div class="dropdown-menu">
                 <a class="dropdown-item" href="{{ url_for('addNewRecipe')}}" class="text-white" >Dodaj przepis</a>
                 <a class="dropdown-item" href="{{ url_for('myRecipes')}}" class="text-white">Moje przepisy</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Wyloguj się</a>
+                <a class="dropdown-item" href="{{ url_for('logout')}}" class="text-white">Wyloguj {{ session['user'] if 'user' in session }}</a>
             </div>
         </div>
         {% else %}
@@ -24,16 +24,9 @@
             <button type="button" class="btn btn-primary " style="width: 100px;">
                 <a href="{{ url_for('login')}}" class="text-white">Zaloguj</a>
             </button>
-            <button type="button" class="btn btn-primary " style="width: 100px;">
-                <a href="{{ url_for('register')}}" class="text-white">Zarejestruj</a>
+            <button type="button" class="btn  " style="width: 100px;">
+                <a href="{{ url_for('register')}}" class="text-black">Zarejestruj</a>
             </button>
-            <button type="button" class="btn btn-secondary " style="width: 130px;">
-                <a href="{{ url_for('myRecipes')}}" class="text-white">Moje przepisy</a>
-            </button>
-            <button type="button" class="btn btn-secondary " style="width: 130px;">
-                <a href="{{ url_for('addNewRecipe')}}" class="text-white" >Dodaj przepis</a> 
-            </button>
-
         </div>
     
         {% endif %}

@@ -1,4 +1,4 @@
-from flask import Flask, g, request, redirect, url_for, flash
+from flask import Flask, g, request, redirect, url_for, flash, session
 from flask import render_template
 import sqlite3 
 import random
@@ -7,7 +7,7 @@ import hashlib
 import binascii
 from restapi.recipes_api import recipes_api
 
-#BLX password
+#ZJl 
 app_info = {
     "db_file" : "C:/Users/Madzialenna/Desktop/blogKulinarny/myBlog/data/recipes.db"
 }
@@ -57,11 +57,26 @@ class UserPass:
         password_characters = string.ascii_letters #+ string.digits + string.punctuation
         random_password = ''.join(random.choice(password_characters)for i in range(3))
         self.password = random_password
+
+    def login_user(self):
+
+        db = get_db()
+        sql_statement = 'select id, email, password, is_active from users where email=?'
+        cur = db.execute(sql_statement, [self.user])
+        user_record = cur.fetchone()
+
+        if user_record != None and self.verify_password(user_record['password'], self.password):
+            return user_record
+        else:
+            self.user = None
+            self.password = None
+            return None   
+
+
     
 @app.route('/init_app')
 def init_app():
 
-    # check if there are users defined (at least one active admin required)
     db = get_db()
     sql_statement = 'select count(*) as cnt from users where is_active;'
     cur = db.execute(sql_statement)
@@ -69,15 +84,16 @@ def init_app():
 
     if active_user!=None and active_user['cnt']>0:
         return redirect(url_for('index'))
-# if not - create/update admin account with a new password and admin privileges, display random username
+
     user_pass = UserPass()
     user_pass.get_random_user_pasword()
     sql_statement = '''insert into users(email, password, is_active)
                        values(?,?,True);'''
     db.execute(sql_statement, [ 'xxx@xxx.xx', user_pass.hash_password()])
+
     db.commit()
+
     flash('password {} has been created'.format(user_pass.password))
-    #print('password {} has been created'.format(user_pass.user, user_pass.password)) 
     return redirect(url_for('index'))
 
     
@@ -89,7 +105,7 @@ def index():
     sql_command = 'select * from recipes'
     cur = db.execute(sql_command)
     recipes = cur.fetchall()
-
+ 
     return render_template('index.html',recipes = recipes )
 
 @app.route('/addRecipe')
@@ -177,9 +193,33 @@ def updateProcess(recipe_id):
 
         return redirect(url_for('myRecipes'))
 
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+
+    if request.method == 'GET':
+        return render_template('login.html', active_menu='login')
+    else:
+        user_email = '' if 'user_email' not in request.form else request.form['user_email']
+        user_password = '' if 'user_password' not in request.form else request.form['user_password']
+
+        login = UserPass(user_email, user_password)
+        login_record = login.login_user()
+
+        if login_record != None:
+            session['user'] = user_email
+            return redirect(url_for('index'))
+        else:
+            flash('Nie udało się zalogować. Spróbuj ponownie')
+            return render_template('login.html')
+        
+
+@app.route('/logout')
+def logout():
+
+    if 'user' in session:
+        session.pop('user', None)
+    return redirect(url_for('index'))
+
 
 @app.route('/register')
 def register():
