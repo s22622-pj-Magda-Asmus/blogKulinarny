@@ -5,14 +5,17 @@ import random
 import string
 import hashlib
 import binascii
+from restapi.recipes_api import recipes_api
 
-
+#BLX password
 app_info = {
     "db_file" : "C:/Users/Madzialenna/Desktop/blogKulinarny/myBlog/data/recipes.db"
 }
 
 
 app= Flask(__name__)
+app.register_blueprint(recipes_api)
+
 app.config['SECRET_KEY'] = 'xxx!'
 # from app import routes
 def get_db():
