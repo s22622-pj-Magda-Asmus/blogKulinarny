@@ -25,7 +25,13 @@
 
 <body id="page-top" class="">
 
+
   {% include "menu.html" %}
+  
+  <!-- {% for message in get_flashed_messages() %}
+  <div>{{ message }}</dev>
+  {% endfor %} -->
+
 
   {% block content %}{% endblock %}
 

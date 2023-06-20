@@ -13,8 +13,8 @@
                 Action
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">Dadaj przepis</a>
-                <a class="dropdown-item" href="#">Moje konto</a>
+                <a class="dropdown-item" href="{{ url_for('addNewRecipe')}}" class="text-white" >Dodaj przepis</a>
+                <a class="dropdown-item" href="{{ url_for('myRecipes')}}" class="text-white">Moje przepisy</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Wyloguj się</a>
             </div>
@@ -22,18 +22,20 @@
         {% else %}
         <div class="btn-group">
             <button type="button" class="btn btn-primary " style="width: 100px;">
-                Zaloguj
+                <a href="{{ url_for('login')}}" class="text-white">Zaloguj</a>
             </button>
-            <button type="button" class="btn btn-secondary " style="width: 100px;">
-                Zarejestruj
+            <button type="button" class="btn btn-primary " style="width: 100px;">
+                <a href="{{ url_for('register')}}" class="text-white">Zarejestruj</a>
             </button>
-            <button type="button" class="btn btn-primary " style="width: 130px;">
+            <button type="button" class="btn btn-secondary " style="width: 130px;">
                 <a href="{{ url_for('myRecipes')}}" class="text-white">Moje przepisy</a>
             </button>
             <button type="button" class="btn btn-secondary " style="width: 130px;">
                 <a href="{{ url_for('addNewRecipe')}}" class="text-white" >Dodaj przepis</a> 
             </button>
+
         </div>
+    
         {% endif %}
 
     </div>
