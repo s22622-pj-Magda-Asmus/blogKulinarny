@@ -9,14 +9,15 @@
         {% if 'user' in session %}
         <div class="btn-group">
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false" style="width: 200px;">
-                Menu {{ session['user'] if 'user' in session }}
+                aria-expanded="false" style="width: 250px;">
+                 {{ session['user'] if 'user' in session }}
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item" href="{{ url_for('addNewRecipe')}}" class="text-white" >Dodaj przepis</a>
+                <a class="dropdown-item" href="{{ url_for('addNewRecipe')}}" class="text-white">Dodaj przepis</a>
                 <a class="dropdown-item" href="{{ url_for('myRecipes')}}" class="text-white">Moje przepisy</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{ url_for('logout')}}" class="text-white">Wyloguj {{ session['user'] if 'user' in session }}</a>
+                <a class="dropdown-item" href="{{ url_for('logout')}}" class="text-white">Wyloguj {{ session['user'] if
+                    'user' in session }}</a>
             </div>
         </div>
         {% else %}
@@ -28,7 +29,7 @@
                 <a href="{{ url_for('register')}}" class="text-black">Zarejestruj</a>
             </button>
         </div>
-    
+
         {% endif %}
 
     </div>

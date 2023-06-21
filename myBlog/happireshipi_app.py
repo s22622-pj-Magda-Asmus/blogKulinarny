@@ -35,6 +35,8 @@ class UserPass:
     def __init__(self, user='', password=''):
         self.user = user
         self.password=password
+        self.is_valid = False
+        
 
     def hash_password(self):
         """Hash a password for storing."""
@@ -71,6 +73,22 @@ class UserPass:
             self.user = None
             self.password = None
             return None   
+        
+    def get_user_info(self):
+        db = get_db()
+        sql_statement = 'select email, is_active from users where email=?'
+        cur = db.execute(sql_statement, [self.user])
+        db_user = cur.fetchone()
+
+        if db_user == None:
+            self.is_valid = False
+            self.email = ''
+        elif db_user['is_active']!=1:
+            self.is_valid = False
+            self.email = db_user['email']
+        else:
+            self.is_valid = True
+            self.email = db_user['email']
 
 
     
@@ -110,6 +128,10 @@ def index():
 
 @app.route('/addRecipe')
 def addNewRecipe():
+    login = UserPass(session.get('user'))
+    login.get_user_info()
+    if not login.is_valid:
+        return redirect(url_for('login'))
 
     return render_template('addRecipe.html')
 
@@ -140,6 +162,12 @@ def addProcess():
 
 @app.route('/myRecipes', methods=['GET'])
 def myRecipes():
+    
+    login = UserPass(session.get('user'))
+    login.get_user_info()
+    if not login.is_valid:
+        return redirect(url_for('login'))
+
     db = get_db()
     sql_command = 'select * from recipes'
     cur = db.execute(sql_command)
@@ -149,6 +177,12 @@ def myRecipes():
    
 @app.route('/deleteProcess/<int:recipe_id>')
 def deleteProcess(recipe_id):
+
+    login = UserPass(session.get('user'))
+    login.get_user_info()
+    if not login.is_valid:
+        return redirect(url_for('login'))
+    
     db=get_db()
     sql_statement = 'delete from recipes where int = ?;'
     db.execute(sql_statement, [recipe_id] )    
@@ -160,6 +194,10 @@ def deleteProcess(recipe_id):
 
 @app.route('/updateProcess/<int:recipe_id>', methods=['GET', 'POST'])
 def updateProcess(recipe_id):
+    login = UserPass(session.get('user'))
+    login.get_user_info()
+    if not login.is_valid:
+        return redirect(url_for('login'))
 
     if request.method== 'GET':
         db=get_db()
@@ -221,42 +259,6 @@ def logout():
     return redirect(url_for('index'))
 
 
-# @app.route('/register', methods=['GET', 'POST'])
-# def register():
-    
-#     db = get_db()
-#     message = None
-#     user = {}
-
-#     if request.method =='GET':
-#         return render_template('register.html', active_menu='users', user=user)
-#     else:
-#         user['user_email'] = '' if not 'user_email' in request.form else request.form['user_email']
-#         user['password'] = '' if not 'password' in request.form else request.form['password']
-
-#         cursor = db.execute('select count(*) as cnt from users where email = ?', [user['user_email']])
-#         record = cursor.fetchone()
-#         is_user_email_unique = (record['cnt'] == 0)
-
-#         if user['user_email'] == '':
-#             message = 'Pole z mailem jest wymagane'
-#         elif user['password'] == '':
-#             message = 'Pole z hasłem jest wymagane'
-#         elif not is_user_email_unique:
-#             message = 'Użytkownik z takim mailem ({}) już istnieje '.format([user['user_email']])
-
-#         if not message:
-#             password = UserPass( user['password'])          
-#             password_hash = password.hash_password()
-#             sql_statement = '''insert into users(email, password, is_active)
-#                           values(?,?, True);''' 
-#             db.execute(sql_statement, [user['user_email'], password_hash])
-#             db.commit()
-#             flash('Uzytkownik o hasle {} stworzony'.format(user['password']))
-#             return redirect(url_for('login'))
-#         else:
-#             flash('Bład: {}'.format(message))
-#             return render_template('register.html', active_menu='users', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

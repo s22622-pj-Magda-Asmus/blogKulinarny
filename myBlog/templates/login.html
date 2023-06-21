@@ -2,10 +2,10 @@
 
 {% block content %}
 <section class="" id="portfolio">
-    <div class="container">
-<div style="margin: 25px; background-color:rgb(237, 232, 130); ">
-    <h2 style="margin-top: 100px; padding: 20px;">Zaloguj się:</h2>
-    <form style="padding: 20px;" method="POST" action="{{url_for('login')}}" >
+  <div class="container">
+    <div style="margin: 25px; background-color:rgb(237, 232, 130); ">
+      <h2 style="margin-top: 100px; padding: 20px;">Zaloguj się:</h2>
+      <form style="padding: 20px;" method="POST" action="{{url_for('login')}}">
         <div class="form-group">
           <label for="user_email">Adres email</label>
           <input type="text" class="form-control" name="user_email" id="user_email" placeholder="Wpisz mail">
@@ -15,12 +15,13 @@
           <input type="password" class="form-control" name="user_password" id="user_password" placeholder="hasło">
         </div>
         <div style="text-align: right;">
-        <a href="{{ url_for('new_password')}}" class="text-black">Nie pamiętasz hasła - zresetuj </a>
+          <a href="{{ url_for('new_password')}}" class="text-black">Nie pamiętasz hasła - zresetuj </a>
         </div>
-        <button type="submit" class="btn btn-primary">Zaloguj</button></form>
-    </form>
-</div>
-</div>
+        <button type="submit" class="btn btn-primary">Zaloguj</button>
+      </form>
+      </form>
+    </div>
+  </div>
 </section>
 
 {% endblock %}
