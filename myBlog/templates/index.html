@@ -4,10 +4,10 @@
 
 <section class="" id="portfolio">
     <div class="container">
-        
+
         <div class="row">
 
-            {% for recipe in recipes  %}
+            {% for recipe in recipes %}
 
             <div class="col-md-5 col-sm-10 portfolio-item">
                 <div class="card">
@@ -15,8 +15,8 @@
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content"></div>
                         </div>
-                        <img class="card-img-top" src="{{url_for('static', filename=recipe.img )  }}" style="width:400px;"
-                            alt="Card image cap">
+                        <img class="card-img-top" src="{{url_for('static', filename=recipe.img )  }}"
+                            style="width:400px;" alt="Card image cap">
                     </a>
                     <div class="card-body">
                         <h4 class="card-title">{{ recipe.nazwa }}</h4>
@@ -34,8 +34,8 @@
 
 <!-- window 1 -->
 {% for recipe in recipes %}
-<div class="modal fade" id="portfolioModal{{recipe.int}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" id="portfolioModal{{recipe.int}}" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -59,4 +59,3 @@
 </div>
 {% endfor %}
 {% endblock %}
-
