@@ -14,8 +14,10 @@
           <label for="user_password">Hasło</label>
           <input type="password" class="form-control" name="user_password" id="user_password" placeholder="hasło">
         </div>
-     
-        <button type="submit" class="btn btn-primary">Zaloguj</button>
+        <div style="text-align: right;">
+        <a href="{{ url_for('new_password')}}" class="text-black">Nie pamiętasz hasła - zresetuj </a>
+        </div>
+        <button type="submit" class="btn btn-primary">Zaloguj</button></form>
     </form>
 </div>
 </div>

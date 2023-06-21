@@ -200,9 +200,9 @@ def login():
         return render_template('login.html', active_menu='login')
     else:
         user_email = '' if 'user_email' not in request.form else request.form['user_email']
-        user_password = '' if 'user_password' not in request.form else request.form['user_password']
+        password = '' if 'password' not in request.form else request.form['password']
 
-        login = UserPass(user_email, user_password)
+        login = UserPass(user_email, password)
         login_record = login.login_user()
 
         if login_record != None:
@@ -221,9 +221,84 @@ def logout():
     return redirect(url_for('index'))
 
 
-@app.route('/register')
+# @app.route('/register', methods=['GET', 'POST'])
+# def register():
+    
+#     db = get_db()
+#     message = None
+#     user = {}
+
+#     if request.method =='GET':
+#         return render_template('register.html', active_menu='users', user=user)
+#     else:
+#         user['user_email'] = '' if not 'user_email' in request.form else request.form['user_email']
+#         user['password'] = '' if not 'password' in request.form else request.form['password']
+
+#         cursor = db.execute('select count(*) as cnt from users where email = ?', [user['user_email']])
+#         record = cursor.fetchone()
+#         is_user_email_unique = (record['cnt'] == 0)
+
+#         if user['user_email'] == '':
+#             message = 'Pole z mailem jest wymagane'
+#         elif user['password'] == '':
+#             message = 'Pole z hasłem jest wymagane'
+#         elif not is_user_email_unique:
+#             message = 'Użytkownik z takim mailem ({}) już istnieje '.format([user['user_email']])
+
+#         if not message:
+#             password = UserPass( user['password'])          
+#             password_hash = password.hash_password()
+#             sql_statement = '''insert into users(email, password, is_active)
+#                           values(?,?, True);''' 
+#             db.execute(sql_statement, [user['user_email'], password_hash])
+#             db.commit()
+#             flash('Uzytkownik o hasle {} stworzony'.format(user['password']))
+#             return redirect(url_for('login'))
+#         else:
+#             flash('Bład: {}'.format(message))
+#             return render_template('register.html', active_menu='users', user=user)
+
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    db = get_db()
+    message = None
+    user = {}
+
+    if request.method == 'GET':
+        return render_template('register.html', active_menu='users', user=user)
+    else:
+        user['user_email'] = '' if 'user_email' not in request.form else request.form['user_email']
+        user['password'] = '' if 'password' not in request.form else request.form['password']
+
+        cursor = db.execute('SELECT COUNT(*) AS cnt FROM users WHERE email = ?', [user['user_email']])
+        record = cursor.fetchone()
+        is_user_email_unique = (record['cnt'] == 0)
+
+        if user['user_email'] == '':
+            message = 'Pole z mailem jest wymagane'
+        elif user['password'] == '':
+            message = 'Pole z hasłem jest wymagane'
+        elif not is_user_email_unique:
+            message = 'Użytkownik z takim mailem ({}) już istnieje'.format(user['user_email'])
+
+        if not message:
+            password = UserPass(user['password'])
+            password_hash = password.hash_password()
+
+            sql_statement = '''INSERT INTO users (email, password, is_active) VALUES (?, ?, True);'''
+            db.execute(sql_statement, [user['user_email'], password_hash])
+            db.commit()
+
+            flash('Użytkownik o adresie email {} został utworzony'.format(user['user_email']))
+            return redirect(url_for('login'))
+        else:
+            flash('Błąd: {}'.format(message))
+            return render_template('register.html', active_menu='users', user=user)
+        
+@app.route('/new_password')
+def new_password():
+
+    return render_template('new_password.html')
 
 if __name__=='__main__':
     app.run()
